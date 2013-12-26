@@ -6,7 +6,7 @@ Version: '0.1'
 Vendor: Custom Cartridges Inc
 Cartridge-Version: 0.0.1
 Cartridge-Vendor: customcarts
-Source-Url: https://github.com/tresbailey/openshift-celery-cartridge.git
+Source-Url: https://github.com/zzpwelkin/openshift-celery-cartridge.git
 Categories:
   - service
 Provides:
