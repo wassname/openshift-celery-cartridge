@@ -1,7 +1,7 @@
 Name: celeryd
 Cartridge-Short-Name: CELERY
 Display-Name: Celery Cartridge
-Description: "A cartridge for running the celeryd daemon to allow asynchronous tasks in your application."
+Description: A cartridge for running the celeryd daemon to allow asynchronous tasks in your application.
 Version: '0.1'
 Cartridge-Version:
   - '1.0.1'
@@ -14,7 +14,7 @@ Provides:
 Cart-Data:
   - Key: OPENSHIFT_CELERY_HOME
     Type: environment
-    Description: "An environment variable for the Home dir of the binary"
+    Description: An environment variable for the Home dir of the binary
 Group-Overrides:
   - components:
     - celery
