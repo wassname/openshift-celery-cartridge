@@ -1,1 +1,2 @@
-
+pip install celery==3.0.23
+pip install Scrapy==0.16.1
