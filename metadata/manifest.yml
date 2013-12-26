@@ -3,7 +3,8 @@ Cartridge-Short-Name: CELERY
 Display-Name: Celery Cartridge
 Description: "A cartridge for running the celeryd daemon to allow asynchronous tasks in your application."
 Version: '0.1'
-Cartridge-Version: 0.0.1
+Cartridge-Version:
+  - '1.0.1'
 Cartridge-Vendor: customcarts
 Source-Url: https://github.com/zzpwelkin/openshift-celery-cartridge.git
 Categories:
