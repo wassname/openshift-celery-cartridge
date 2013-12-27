@@ -3,11 +3,11 @@ print 'Configuring celeryd with default cartridge config file'
 broker_type = ENV.fetch('OPENSHIFT_CELERY_BROKER_TRANS', 'mongodb')
 if broker_type == "mongodb" %>
 ## Broker settings.
-default_url = 'mongodb://localshot:12607'
-BROKER_URL = <%= ENV.fetch('OPENSHIFT_CELERY_BROKER_URL', default_url) %>
+##default_url = 'mongodb://localshot:12607'
+BROKER_URL = '<%= ENV.fetch('OPENSHIFT_CELERY_BROKER_URL', 'mongodb://localshot:12607') %>'
 ## Using the database to store task state and results.
 CELERY_RESULT_BACKEND = "mongodb"
-CELERY_RESULT_DBURI = <%= ENV.fetch('OPENSHIFT_CELERY_RESULT_BACKEND', default_url) %>
+CELERY_RESULT_DBURI = '<%= ENV.fetch('OPENSHIFT_CELERY_RESULT_BACKEND', 'mongodb://localshot:12607') %>'
 
 <% elsif broker_type == "amqp" %>
 ## Broker settings
