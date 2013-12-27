@@ -1,5 +1,6 @@
 import celery
 app = celery.Celery()
+app.config_from_object('celeryconfig')
 
 @app.task
 def addtest(x, y):
