@@ -27,8 +27,6 @@ CELERY_RESULT_BACKEND = 'redis://<%= ENV.fetch('OPENSHIFT_CELERY_RESULT_BACKEND'
 CELERY_IMPORTS = (<%= celery_imports %>, )
 
 
-CELERY_ANNOTATIONS = {"tasks.add": {"rate_limit": <%= ENV.fetch('OPENSHIFT_CELERY_RATE_LIM', '10/s') %>}}
-
 """
 BROKER_BACKEND = 'mongodb'
 CELERY_RESULT_BACKEND = 'mongodb'
