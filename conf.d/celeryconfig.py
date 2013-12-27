@@ -6,6 +6,5 @@ CELERY_RESULT_DBURI = os.environ.get('OPENSHIFT_MONGODB_DB_URL')
 
 celery_imports = os.environ.get('OPENSHIFT_CELERY_IMPORTS')
 
-CELERY_IMPORTS = celery_imports.split(',') if celery_imports else ('celerytks',)
+CELERY_IMPORTS = celery_imports.split(',') if celery_imports else ('celerytks.tasks',)
 
-CELERYD_LOG_FILE = '{0}log/celery/worker1.log'.format(os.environ.get('OPENSHIFT_TMP_DIR'))
