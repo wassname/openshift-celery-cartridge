@@ -6,5 +6,6 @@ CELERY_RESULT_DBURI = os.environ.get('OPENSHIFT_MONGODB_DB_URL')
 
 celery_imports = os.environ.get('OPENSHIFT_CELERY_IMPORTS')
 
-CELERY_IMPORTS = celery_imports.split(',') 
+if celery_imports:
+    CELERY_IMPORTS = celery_imports.split(',') 
 
