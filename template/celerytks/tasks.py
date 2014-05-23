@@ -1,4 +1,5 @@
 import celery
+
 app = celery.Celery()
 app.config_from_object('celeryconfig')
 
