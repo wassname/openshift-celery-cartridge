@@ -13,8 +13,8 @@ Cartridge-Vendor: customcarts
 Source-Url: https://github.com/cozezien/openshift-celery-cartridge.git
 Categories:
   - service
-Requires:
-  - python-2.7
+  - web_framework
+Requires:   python = 2.7
 Provides:
   - celery
 Cart-Data:
