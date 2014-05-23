@@ -10,7 +10,7 @@ Vendor: Matti HEIKKILA
 Cartridge-Version:
   - '1.0.2'
 Cartridge-Vendor: customcarts
-Source-Url: https://bitbucket.org/heico/openshift-celery-cartridge.git
+Source-Url: https://github.com/cozezien/openshift-celery-cartridge.git
 Categories:
   - service
 Requires:
