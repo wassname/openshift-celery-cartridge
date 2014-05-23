@@ -5,8 +5,8 @@ PATH=/bin/:/usr/bin:$PATH
 #source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 function start {
-    export PYTHONPATH=$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi:$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
-    `echo $OPENSHIFT_CELERY_DIR`usr/celery worker  start --pidfile=`echo $OPENSHIFT_CELERY_DIR`etc/celeryd.pid --loglevel=DEBUG --logfile=`echo $OPENSHIFT_TMP_DIR`celery_log.txt
+    export PYTHONPATH=$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi:$OPENSHIFT_REPO_DIR:$PYTHONPATH
+    `echo $OPENSHIFT_CELERY_DIR`usr/celery worker start --pidfile=`echo $OPENSHIFT_CELERY_DIR`etc/celeryd.pid --loglevel=DEBUG --logfile=`echo $OPENSHIFT_TMP_DIR`celery_log.txt
 }
 
 function stop {
