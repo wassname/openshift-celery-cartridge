@@ -14,7 +14,7 @@ Source-Url: https://github.com/cozezien/openshift-celery-cartridge.git
 Categories:
   - service
   - web_framework
-Requires:   python = 2.7
+Requires:   python-2.7
 Provides:
   - celery
 Cart-Data:
