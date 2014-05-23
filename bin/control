@@ -6,7 +6,7 @@ PATH=/bin/:/usr/bin:$PATH
 
 function start {
     export PYTHONPATH=$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi:$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
-    `echo $OPENSHIFT_CELERY_DIR`usr/celeryd-multi start --cmd=`echo $OPENSHIFT_CELERY_DIR`usr/celeryd --pidfile=`echo $OPENSHIFT_CELERY_DIR`etc/celeryd.pid --hostname=$OPENSHIFT_INTERNAL_IP --loglevel=DEBUG --logfile=`echo $OPENSHIFT_TMP_DIR`celery_log.txt
+    `echo $OPENSHIFT_CELERY_DIR`usr/celery worker  start --pidfile=`echo $OPENSHIFT_CELERY_DIR`etc/celeryd.pid --loglevel=DEBUG --logfile=`echo $OPENSHIFT_TMP_DIR`celery_log.txt
 }
 
 function stop {
