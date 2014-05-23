@@ -1,9 +1,9 @@
 #!/home/tres/Code/Scribble/screnv/bin/python
 # EASY-INSTALL-ENTRY-SCRIPT: 'celery==3.0.21','console_scripts','celeryev'
-__requires__ = 'celery==3.0.21'
+__requires__ = 'celery==3.1.11'
 import sys
 from pkg_resources import load_entry_point
 
 sys.exit(
-   load_entry_point('celery==3.0.21', 'console_scripts', 'celeryev')()
+   load_entry_point('celery==3.1.11', 'console_scripts', 'celeryev')()
 )

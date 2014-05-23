@@ -12,7 +12,7 @@ function start {
 function stop {
     if ps -p `cat etc/celeryd.pid` > /dev/null; 
     then
-        kill -9 `cat etc/celeryd.pid`
+        kill `cat etc/celeryd.pid`
     else
         echo "nothing to kill"
     fi

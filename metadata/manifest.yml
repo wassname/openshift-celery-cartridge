@@ -4,13 +4,17 @@ Display-Name: Celery Cartridge
 Description: A cartridge for running the celeryd daemon to allow asynchronous tasks in your application.
 Version: '0.1'
 License: ASL 2.0
-Vendor: zzpwelkin
+Requires:
+  - python-2.7
+Vendor: Matti HEIKKILA
 Cartridge-Version:
-  - '1.0.1'
+  - '1.0.2'
 Cartridge-Vendor: customcarts
-Source-Url: https://github.com/zzpwelkin/openshift-celery-cartridge.git
+Source-Url: https://bitbucket.org/heico/openshift-celery-cartridge.git
 Categories:
   - service
+Requires:
+  - python-2.7
 Provides:
   - celery
 Cart-Data:
