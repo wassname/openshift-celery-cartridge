@@ -5,5 +5,5 @@ import sys
 from pkg_resources import load_entry_point
 
 sys.exit(
-   load_entry_point('celery==3.1.11', 'console_scripts', 'celerybeat')()
+   load_entry_point('celery', 'console_scripts', 'celerybeat')()
 )
