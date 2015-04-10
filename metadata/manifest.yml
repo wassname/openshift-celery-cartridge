@@ -19,6 +19,12 @@ Cart-Data:
   - Key: OPENSHIFT_CELERY_HOME
     Type: environment
     Description: An environment variable for the Home dir of the binary
+  - Key: OPENSHIFT_CELERY_BROKER_URL
+    Type: environment
+    Description: An environment variable for the celery broker
+  - Key: OPENSHIFT_CELERY_IMPORTS
+    Type: environment
+    Description: An environment variable for the python modules for celery to import
 Group-Overrides:
   - components:
     - celery
