@@ -12,9 +12,9 @@ Configuration
 To install
 ---------------------
 
-    rhc cartridge-add https://raw.github.com/wassname/openshift-celery-cartridge/master/metadata/manifest.yml -a <appname>
+    rhc cartridge-add https://raw.github.com/wassname/openshift-celery-cartridge/master/metadata/manifest.yml -a "appname"
     
-Any log output will be generated to ${OPENSHIFT_APP_ROOT}logs/celery_log.txt and will be viewable with the rhc tail <appname> command
+Any log output will be generated to ${OPENSHIFT_APP_ROOT}logs/celery_log.txt and will be viewable with the rhc tail "appname" command
 
 This was tested using:
 
@@ -24,6 +24,6 @@ This was tested using:
 To manage
 ---------------------
 
-    $ rhc cartridge-status celeryd -a <yourapp>
+    $ rhc cartridge-status celeryd -a "yourapp"
 
 
