@@ -3,15 +3,11 @@ openshift-celery-cartridge
 
 Cartridge to Expose Celery as a Daemon on OpenShift
 
-Environment Variables
+Configuration
 ---------------------
 
-*  <code>OPENSHIFT_CELERY_BROKER_URL</code> 
-    The connection URL for the broker, omitting the transport.  For example, an amqp value may look like: guest:guest@localhost:5672//
-
-*  <code>OPENSHIFT_CELERY_IMPORTS</code> 
-    Defines the modules that celery should import.  Currently only supports 1 module import path
-
+*  <code>OPENSHIFT_CELERY_CONFIG</code> 
+    This is the name of your config file, which by default is $OPENSHIFT_CELERY_DIR/conf.d/celeryconfig.py
 
 To install
 ---------------------
