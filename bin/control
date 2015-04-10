@@ -1,19 +1,19 @@
 #!/bin/bash -e
 
-PATH=/bin/:/usr/bin:$PATH
-
+PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:$PATH
 #source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 function start {
     export PYTHONPATH=$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi:$OPENSHIFT_REPO_DIR:$PYTHONPATH
     echo "cartridge ready for code"
-#    echo "`echo $OPENSHIFT_CELERY_DIR`usr/celery worker start --pidfile=`echo $OPENSHIFT_CELERY_DIR`etc/celeryd.pid --loglevel=DEBUG --logfile=`echo $OPENSHIFT_TMP_DIR`celery_log.txt" >> `echo $OPENSHIFT_TMP_DIR`blarg.txt
+    echo "${OPENSHIFT_CELERY_DIR}usr/celery worker -A ${OPENSHIFT_CELERY_PYTHON_PKG_NAME} -b ${OPENSHIFT_CELERY_BROKER_URL} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt" >> `echo $OPENSHIFT_TMP_DIR`blarg.txt
+    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --app=${OPENSHIFT_CELERY_PYTHON_PKG_NAME} --broker=${OPENSHIFT_CELERY_BROKER_URL} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --hostname=${OPENSHIFT_APP_DNS} --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
 }
 
 function stop {
     if ps -p `cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid` > /dev/null; 
     then
-        kill `cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid`
+        kill -9 `cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid`
     else
         echo "nothing to kill"
     fi
@@ -21,8 +21,21 @@ function stop {
 }
 
 function restart {
-    echo "restarted"
+    celery multi restart worker --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid
+    echo "not yet implemented"
     
+}
+
+function status() {
+    pid=`cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid`
+    info=`celery multi show worker`
+    client_result $pwd
+    if [ -f $pid ] && ( kill -0 $(cat $pid) ); then
+        client_result "Celery is running ${info}"
+        client_result "  Connect to: $OPENSHIFT_GEAR_DNS:$OPENSHIFT_CELERY_IDENT"
+    else
+        client_result "Celery is not running"
+    fi
 }
 
 function catchall {
