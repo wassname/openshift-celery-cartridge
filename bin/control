@@ -1,13 +1,14 @@
 #!/bin/bash -e
 
 PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:$PATH
-#source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+#TODO add scaling, better status, variable worker names
 
 function start {
     export PYTHONPATH=$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi:$OPENSHIFT_REPO_DIR:$PYTHONPATH
     echo "cartridge ready for code"
     echo "${OPENSHIFT_CELERY_DIR}usr/celery worker -A ${OPENSHIFT_CELERY_PYTHON_PKG_NAME} -b ${OPENSHIFT_CELERY_BROKER_URL} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt" >> `echo $OPENSHIFT_TMP_DIR`blarg.txt
-    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --app=${OPENSHIFT_CELERY_PYTHON_PKG_NAME} --broker=${OPENSHIFT_CELERY_BROKER_URL} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --hostname=${OPENSHIFT_APP_DNS} --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
+    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --app=${OPENSHIFT_CELERY_IMPORTS} --broker=${OPENSHIFT_CELERY_BROKER_URL} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --hostname=${OPENSHIFT_APP_DNS} --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
 }
 
 function stop {
@@ -31,8 +32,7 @@ function status() {
     info=`celery multi show worker`
     client_result $pwd
     if [ -f $pid ] && ( kill -0 $(cat $pid) ); then
-        client_result "Celery is running ${info}"
-        client_result "  Connect to: $OPENSHIFT_GEAR_DNS:$OPENSHIFT_CELERY_IDENT"
+        client_result "Celery is running ${info} at pid:${pid}"
     else
         client_result "Celery is not running"
     fi
