@@ -6,7 +6,7 @@ PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELE
 
 function start {
     echo  "Starting ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt"
-    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
+    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_APP_ROOT}app-root/logs/celery_log.txt
 }
 
 function stop {
