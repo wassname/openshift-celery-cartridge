@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELERY_DIR}conf.d:$PATH
+PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELERY_DIR}conf.d:$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$PATH:
 
 #TODO add scaling, better status, variable worker names, stop workers properly
 
