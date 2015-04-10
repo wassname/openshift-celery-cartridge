@@ -5,9 +5,8 @@ PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELE
 #TODO add scaling, better status, variable worker names, stop workers properly
 
 function start {
-    echo "Starting celery:${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --configfile=celeryconfig"
-    #echo "${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --app=${OPENSHIFT_CELERY_IMPORTS=${OPENSHIFT_APP_NAME}} --broker=${OPENSHIFT_CELERY_BROKER_URL="amqp://guest@localhost//"} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --hostname=${OPENSHIFT_APP_DNS} --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt" >> `echo $OPENSHIFT_TMP_DIR`celery_log.txt
-    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --configfile=$(OPENSHIFT_CELERY_CONFIG=celeryconfig}
+    echo  "Starting ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --configfile=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt"
+    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --configfile=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
 }
 
 function stop {
