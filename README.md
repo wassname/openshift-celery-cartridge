@@ -20,6 +20,11 @@ To install
     
 Any log output will be generated to ${OPENSHIFT_TMP_DIR}/celery_log.txt
 
+This was tested using:
+
+    celery==3.1.11
+    redis==2.10.3
+
 To manage
 ---------------------
 
