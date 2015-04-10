@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELERY_DIR}conf.d:$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$PATH:
+PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELERY_DIR}conf.d:$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$PATH
 
 #TODO add scaling, better status, variable worker names, stop workers properly
 
 function start {
-    echo  "Starting ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --configfile=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt"
+    echo  "Starting ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt"
     ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --configfile=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
 }
 
