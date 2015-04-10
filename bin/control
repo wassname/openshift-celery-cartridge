@@ -2,14 +2,14 @@
 
 PATH=${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:$PATH
 
-#TODO add scaling, better status, variable worker names
+#TODO add scaling, better status, variable worker names, stop workers properly
 
 function start {
 	if env | grep -q ^OPENSHIFT_CELERY_IMPORTS=
 	then
 	  echo "Starting"
-      echo "${OPENSHIFT_CELERY_DIR}usr/celery worker -A ${OPENSHIFT_CELERY_IMPORTS=OPENSHIFT_APP_NAME} -b ${OPENSHIFT_CELERY_BROKER_URL} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt" >> `echo $OPENSHIFT_TMP_DIR`blarg.txt
-      ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --app=${OPENSHIFT_CELERY_IMPORTS=${OPENSHIFT_APP_NAME}} --broker=${OPENSHIFT_CELERY_BROKER_URL="amqp://guest@localhost//"} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --hostname=${OPENSHIFT_APP_DNS} --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
+      echo "${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --app=${OPENSHIFT_CELERY_IMPORTS=${OPENSHIFT_APP_NAME}} --broker=${OPENSHIFT_CELERY_BROKER_URL="amqp://guest@localhost//"} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --hostname=${OPENSHIFT_APP_DNS} --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt" >> `echo $OPENSHIFT_TMP_DIR`celery_log.txt
+      ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --app=${OPENSHIFT_CELERY_IMPORTS} --broker=${OPENSHIFT_CELERY_BROKER_URL="amqp://guest@localhost//"} --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --hostname=${OPENSHIFT_APP_DNS} --loglevel=DEBUG --logfile=${OPENSHIFT_TMP_DIR}celery_log.txt
 	else
 	  echo "Can't start celery as env var OPENSHIFT_CELERY_IMPORTS has not been set. More: https://developers.openshift.com/en/managing-environment-variables.html"
 	fi
