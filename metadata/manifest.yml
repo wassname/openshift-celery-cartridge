@@ -2,7 +2,7 @@ Name: celeryd
 Cartridge-Short-Name: CELERY
 Display-Name: Celery Cartridge
 Description: A cartridge for running the celeryd daemon to allow asynchronous tasks in your application.
-Version: '0.15'
+Version: '0.16'
 License: ASL 2.0
 Vendor: Matti HEIKKILA
 Cartridge-Version:
@@ -12,9 +12,18 @@ Website: https://github.com/wassname/openshift-celery-cartridge
 Source-Url: https://github.com/wassname/openshift-celery-cartridge.git
 Categories:
   - service
-Requires: python-2.7
+  - embedded
+Requires: celery
+Scaling:
+  Min: 1
+  Max: -1
 Provides:
   - celery
+Endpoints:
+  - Private-IP-Name:   HOST
+    Private-Port-Name: PORT
+    Private-Port:      16388
+    Public-Port-Name:  PROXY_PORT
 Cart-Data:
   - Key: OPENSHIFT_CELERY_HOME
     Type: environment
@@ -28,3 +37,12 @@ Cart-Data:
 Group-Overrides:
   - components:
     - celery
+Subscribes:
+  set-redis-connection-info:
+    Type: "ENV:NET_TCP:db:celery:connection-info-v1"
+    Required: false
+Publishes:
+  publish-db-connection-info:
+    Type: "ENV:NET_TCP:db:connection-info"
+  publish-redis-connection-info:
+    Type: "ENV:NET_TCP:db:celery:connection-info-v1"

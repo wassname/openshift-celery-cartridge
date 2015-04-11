@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+for dir in logs pid tmp env; do
+	mkdir -p $dir
+done
+
+mkdir -p $OPENSHIFT_DATA_DIR/.celery
