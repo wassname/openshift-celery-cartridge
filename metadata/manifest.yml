@@ -13,8 +13,7 @@ Source-Url: https://github.com/wassname/openshift-celery-cartridge.git
 Categories:
   - plugin
   - embedded
-  - python
-Requires: celery
+Requires: python
 Scaling:
   Min: 1
   Max: -1
