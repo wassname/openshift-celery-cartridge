@@ -11,7 +11,7 @@ Cartridge-Vendor: wassname
 Website: https://github.com/wassname/openshift-celery-cartridge
 Source-Url: https://github.com/wassname/openshift-celery-cartridge.git
 Categories:
-  - service
+  - plugin
   - embedded
   - python
 Requires: celery
@@ -38,6 +38,7 @@ Cart-Data:
 Group-Overrides:
   - components:
     - celery
+    - python
 Subscribes:
   set-rcelery-connection-info:
     Type: "ENV:NET_TCP:db:celery:connection-info-v1"
