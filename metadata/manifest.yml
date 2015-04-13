@@ -11,7 +11,7 @@ Cartridge-Vendor: wassname
 Website: https://github.com/wassname/openshift-celery-cartridge
 Source-Url: https://github.com/wassname/openshift-celery-cartridge.git
 Categories:
-  - service
+  - plugin
   - embedded
 Requires: python
 Scaling:
