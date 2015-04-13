@@ -12,11 +12,14 @@ PATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:${OPENSHIFT_CELERY_DIR}bin/
 #TODO add scaling, better status, variable worker names, stop workers properly
 
 function start {
+	LOGPIPE=${OPENSHIFT_HOMEDIR}/app-root/runtime/logshifter-python
+	rm -f $LOGPIPE && mkfifo $LOGPIPE
+	/usr/bin/logshifter -tag python < $LOGPIPE &
 	export PYTHONPATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi::$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
 	PYTHONPATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi::$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
     echo  "Starting Celery, cmd: ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt"
     #echo `${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt` >  ${OPENSHIFT_APP_ROOT}app-root/logs/celery_log.txt
-    ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
+    nohup ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt &> $LOGPIPE &
 }
 
 function stop {
