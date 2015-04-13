@@ -3,10 +3,10 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 source $OPENSHIFT_PYTHON_DIRvirtenv/bin/activate
 PATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELERY_DIR}conf.d:$PATH
-echo find .
-echo $OPENSHIFT_PYTHON_DIR
-echo ${OPENSHIFT_CELERY_DIR}
-echo var
+echo find . > ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
+echo $OPENSHIFT_PYTHON_DIR >> ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
+echo ${OPENSHIFT_CELERY_DIR} >> ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
+echo var >> ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
 
 
 #TODO add scaling, better status, variable worker names, stop workers properly
