@@ -13,6 +13,7 @@ Source-Url: https://github.com/wassname/openshift-celery-cartridge.git
 Categories:
   - service
   - embedded
+  - python
 Requires: celery
 Scaling:
   Min: 1
@@ -38,11 +39,11 @@ Group-Overrides:
   - components:
     - celery
 Subscribes:
-  set-redis-connection-info:
+  set-rcelery-connection-info:
     Type: "ENV:NET_TCP:db:celery:connection-info-v1"
     Required: false
 Publishes:
   publish-db-connection-info:
     Type: "ENV:NET_TCP:db:connection-info"
-  publish-redis-connection-info:
+  publish-celery-connection-info:
     Type: "ENV:NET_TCP:db:celery:connection-info-v1"

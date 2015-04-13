@@ -1,8 +1,13 @@
 #!/bin/bash -e
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
-
+source $OPENSHIFT_PYTHON_DIRvirtenv/bin/activate
 PATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELERY_DIR}conf.d:$PATH
+echo find .
+echo $OPENSHIFT_PYTHON_DIR
+echo ${OPENSHIFT_CELERY_DIR}
+echo var
+
 
 #TODO add scaling, better status, variable worker names, stop workers properly
 
@@ -10,7 +15,7 @@ function start {
 	export PYTHONPATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi::$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
 	PYTHONPATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/wsgi::$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
     echo  "Starting Celery, cmd: ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt"
-    echo `${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt` >  ${OPENSHIFT_APP_ROOT}app-root/logs/celery_log.txt
+    #echo `${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt` >  ${OPENSHIFT_APP_ROOT}app-root/logs/celery_log.txt
     ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
 }
 
@@ -22,6 +27,7 @@ function stop {
         echo "nothing to kill"
     fi
     echo "stopped"
+    rm -f ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid
 }
 
 function restart {
