@@ -20,6 +20,12 @@ function start {
     echo  "Starting Celery, cmd: ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt"
     #echo `${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt` >  ${OPENSHIFT_APP_ROOT}app-root/logs/celery_log.txt
     nohup ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt &> $LOGPIPE &
+    if ps -p `cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid` > /dev/null; 
+    then
+       echo "Startign celery worked"
+    else
+        echo "Startign celery failed"
+    fi
 }
 
 function stop {
