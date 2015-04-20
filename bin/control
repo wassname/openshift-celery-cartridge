@@ -1,56 +1,49 @@
 #!/bin/bash -e
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
-#source $OPENSHIFT_PYTHON_DIRvirtenv/bin/activate
-PATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:${OPENSHIFT_CELERY_DIR}bin/:${OPENSHIFT_CELERY_DIR}usr/bin:${OPENSHIFT_CELERY_DIR}conf.d:$PATH
-#echo find . > ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
-#echo $OPENSHIFT_PYTHON_DIR >> ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
-#echo ${OPENSHIFT_CELERY_DIR} >> ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
-#echo var >> ${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt
-
-
-#TODO add scaling, better status, variable worker names, stop workers properly
 
 function start {
 	LOGPIPE=${OPENSHIFT_HOMEDIR}/app-root/runtime/logshifter-python
 	rm -f $LOGPIPE && mkfifo $LOGPIPE
 	/usr/bin/logshifter -tag python < $LOGPIPE &
-	export PYTHONPATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/config:$OPENSHIFT_REPO_DIR/EXT:$OPENSHIFT_REPO_DIR/wsgi::$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
-	PYTHONPATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/config:$OPENSHIFT_REPO_DIR/EXT:$OPENSHIFT_REPO_DIR/wsgi::$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
-    echo  "Starting Celery, cmd: ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt"
-    #echo `${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt` >  ${OPENSHIFT_APP_ROOT}app-root/logs/celery_log.txt
-    nohup ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt &> $LOGPIPE &
+    
+    PYTHONPATH=$OPENSHIFT_DATA_DIR:$OPENSHIFT_DATA_DIR/config/:$OPENSHIFT_REPO_DIR/.openshift:$OPENSHIFT_REPO_DIR/config:$OPENSHIFT_REPO_DIR/EXT:$OPENSHIFT_REPO_DIR/wsgi::$OPENSHIFT_CELERY_DIR/conf.d:$OPENSHIFT_REPO_DIR:$PYTHONPATH
+    
+    echo  "Starting Celery"
+    #echo "nohup nice -n 10 ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_HOMEDIR}app-root/logs/celery_log.txt &> $LOGPIPE &" > ${OPENSHIFT_LOG_DIR}celery_log.txt
+    nohup nice -n 10 ${OPENSHIFT_CELERY_DIR}usr/celery multi start worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_LOG_DIR}celery_log.txt &> $LOGPIPE &
     if ps -p `cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid` > /dev/null; 
     then
        echo "Starting celery worked"
     else
-        echo "Startign celery failed"
+        echo "Starting celery failed"
     fi
 }
 
 function stop {
+    celery multi stop worker --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid
     if ps -p `cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid` > /dev/null; 
     then
         kill -9 `cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid`
+        rm -f ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid
     else
         echo "nothing to kill"
     fi
     echo "stopped"
-    rm -f ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid
 }
 
 function restart {
-    celery multi restart worker --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid
-    echo "not yet implemented"
+    celery multi restart worker --config=${OPENSHIFT_CELERY_CONFIG=celeryconfig}  --loglevel=DEBUG --hostname=$OPENSHIFT_APP_DNS --pidfile=${OPENSHIFT_CELERY_DIR}etc/celeryd.pid --logfile=${OPENSHIFT_LOG_DIR}celery_log.txt 
+    echo "Restarted celery"
     
 }
 
 function status() {
     pid=`cat ${OPENSHIFT_CELERY_DIR}etc/celeryd.pid`
-    info=`celery multi show worker`
+    PROCESS_COUNT=$(ps -ef | grep "${PROCESS_NAME}" | grep -v "grep" | wc -l)
     client_result $pwd
     if [ -f $pid ] && ( kill -0 $(cat $pid) ); then
-        client_result "Celery is running ${info} at pid:${pid}"
+        client_result "Celery is running at pid:${pid}, $PROCESS_COUNT instances of celery"
     else
         client_result "Celery is not running"
     fi
