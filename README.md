@@ -5,7 +5,9 @@ Cartridge to Expose Celery as a Daemon on OpenShift.
 
 Status
 ---------------------
-This work on unscaled applications but doesn't work as a gearin a scaled application. Further development can combine this with a python cartridge so it can operate in it's own gears.
+This work on unscaled applications but only as a plugin cartridge on scaled applications. This means that it's can't scale independently of your main gear. At this point having a celery cartridge is no better than just starting celery in your app.y or action hooks. Further development can combine this with a python cartridge so it can operate in it's own gears.
+
+Instead of using this I recommend starting celery in your action hooks or as part of you app.py instead. This will give more flexibility, and example is here https://github.com/appsembler/appsembler-launch-openshift 
 
 Configuration
 ---------------------

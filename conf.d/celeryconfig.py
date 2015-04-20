@@ -13,7 +13,7 @@ BROKER_PORT = 5672
 BROKER_USER = "celeryuser"
 BROKER_PASSWORD = "celery"
 BROKER_VHOST = "celeryvhost"
-
+CELERYD_OPTS="--autoscale=3,1 --time-limit=300 --concurrency=2 "
 CELERY_RESULT_BACKEND = "amqp"
 
 # Here we check the env vars first, otherwise go with "tasks"
